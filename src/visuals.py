@@ -3,31 +3,31 @@ from sklearn.metrics import roc_curve, auc
 import seaborn as sns
 import numpy as np
 
-def error_plots(df_confusion_matrix, fp_value, tp_value, auc_value):
+def plot_errors(con_matrix, fp_value, tp_value, auc_value):
     """
-    Generate two plots (confusion matrix & ROC).
+    Function to create two plots: confusion matrix and AUC ROC curve
 
-    Parameters
+    INPUT
     ----------
-    df_confusion_matrix: confusion matrix
-    fp_value: false positive
-    tp_value: true positive
-    auc_value: auc value
+    con_matrix: confusion matrix (output from helpers)
+    fp_value: False Positives (output from helpers)
+    tp_value: True Positives (output from helpers)
+    auc_value: AUC Value (output from helpers)
 
-    Returns
+    OUTPUT
     ----------
-    plot_1: confusion matrix
-    plot_2: ROC curve
+    conf_matrix: plot, confusion matrix
+    roc_curve: plot, ROC curve
     """
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16,4))
-    plot_1 = sns.heatmap(df_confusion_matrix, ax=ax1, annot=True, fmt='g', cmap='Oranges')
-    plot_1.xaxis.set_ticks_position('top')
-    plot_1.set_ylabel('Actual')
-    plot_1.set_xlabel('Predicted')
-    plot_1.xaxis.set_label_position('top')
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16,8))
+    conf_matrix = sns.heatmap(con_matrix, ax=ax1, annot=True, fmt='g', cmap='Blues')
+    conf_matrix.xaxis.set_ticks_position('top')
+    conf_matrix.set_ylabel('Observed')
+    conf_matrix.set_xlabel('Predicted')
+    conf_matrix.xaxis.set_label_position('top')
 
-    ax2.plot(fp_value, tp_value, color='orange', label='ROC curve (area = {})'.format(auc_value))
+    ax2.plot(fp_value, tp_value, color='blue', label='ROC curve (area = {})'.format(auc_value))
     plt.title('ROC Curve, AUC:'+str(round(auc_value, 4)))
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
